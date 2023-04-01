@@ -40,7 +40,7 @@ def foreach_batch_function(df, epoch_id):
 	.write \
         .format('jdbc') \
         .mode('append') \
-        .option('url', 'jdbc:postgresql://rc1a-fswjkpli01zafgjm.mdb.yandexcloud.net:6432/de') \
+        .option('url', 'jdbc:postgresql://hello') \
         .option('driver', 'org.postgresql.Driver') \
         .option('dbtable', ' public.subscribers_feedback') \
         .option(**postgresql_settings) \
@@ -53,7 +53,7 @@ def foreach_batch_function(df, epoch_id):
         .writeStream \
         .outputMode("append") \
         .format('kafka') \
-        .option('kafka.bootstrap.servers', 'rc1b-2erh7b35n4j4v869.mdb.yandexcloud.net:9091') \
+        .option('kafka.bootstrap.servers', 'hello') \
         .option(**kafka_security_options) \
         .trigger(continuous='1 second') \
         .option("truncate", False) \
@@ -64,9 +64,9 @@ def foreach_batch_function(df, epoch_id):
 
 restaurant_read_stream_df = spark.readStream \
     .format('kafka') \
-    .option('kafka.bootstrap.servers', 'rc1b-2erh7b35n4j4v869.mdb.yandexcloud.net:9091') \
+    .option('kafka.bootstrap.servers', 'hello') \
     .options(**kafka_security_options) \
-    .option('subscribe', 'kafka_read') \
+    .option('subscribe', 'hello') \
     .option("startingOffsets", "earliest") \
     .load()
 
